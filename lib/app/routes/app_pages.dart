@@ -16,31 +16,29 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
-
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
+      name: _Paths.home,
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
-      name: _Paths.LOGIN,
+      name: _Paths.login,
       page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
-      name: _Paths.ADD_PRODUCT,
+      name: _Paths.addProduct,
       page: () => const AddProductView(),
       binding: AddProductBinding(),
     ),
     GetPage(
-      name: _Paths.PRODUCTS,
+      name: _Paths.products,
       page: () => const ProductsView(),
       binding: ProductsBinding(),
     ),
     GetPage(
-      name: _Paths.DETAIL_PRODUCT,
+      name: _Paths.detailProduct,
       page: () => const DetailProductView(),
       binding: DetailProductBinding(),
     ),
