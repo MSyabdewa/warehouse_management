@@ -1,23 +1,87 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  LoginView({super.key});
+  final TextEditingController emailC = TextEditingController();
+  final TextEditingController passwordC = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LoginView'),
+        backgroundColor: Colors.deepPurple,
+        title: const Text(
+          'LOGIN',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'LoginView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          TextField(
+            autocorrect: false,
+            controller: emailC,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              labelText: 'Email',
+              hintText: 'Enter your email',
+            ),
+          ),
+          const SizedBox(height: 16),
+          Obx(
+            () => TextField(
+              autocorrect: false,
+              controller: passwordC,
+              keyboardType: TextInputType.text,
+              obscureText: controller.isHidden.value,
+              decoration: InputDecoration(
+                labelText: "Password",
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    controller.isHidden.toggle();
+                  },
+                  icon: Icon(
+                    controller.isHidden.isFalse
+                        ? Icons.remove_red_eye
+                        : Icons.remove_red_eye_outlined,
+                  ),
+                ),
+                hintText: 'Enter your password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(9),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {
+              // Get.toNamed('/home');
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              backgroundColor: Colors.deepPurple,
+            ),
+            child: const Text(
+              'Login',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
     );
   }
