@@ -133,7 +133,7 @@ class LoginView extends GetView<LoginController> {
                       IconButton(
                         icon: Icon(
                           Icons.remove_red_eye,
-                          color: controller.isHidden.value
+                          color: !controller.isHidden.value
                               ? Colors.black
                               : Colors.grey,
                           size: 20,
@@ -184,7 +184,7 @@ class LoginView extends GetView<LoginController> {
                       child: Obx(
                         () => Text(
                           controller.isLoading.isFalse ? "LOGIN" : "LOADING...",
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
