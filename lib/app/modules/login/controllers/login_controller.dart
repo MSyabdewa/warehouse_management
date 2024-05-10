@@ -5,4 +5,5 @@ class LoginController extends GetxController {
   // final passwordC = TextEditingController();
 
   RxBool isHidden = true.obs;
+  RxBool isLoading = false.obs;
 }
