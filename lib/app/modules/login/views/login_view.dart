@@ -1,106 +1,212 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:warehouse_management/app/controllers/auth_controller.dart';
-import 'package:warehouse_management/app/routes/app_pages.dart';
 
+import '../../../controllers/auth_controller.dart';
+import '../../../routes/app_pages.dart';
+import '../../../utils/svg_strings.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   LoginView({super.key});
-  final TextEditingController emailC =
-      TextEditingController(text: 'admin@gmail.com');
-  final TextEditingController passwordC = TextEditingController(text: 'dewa99');
+  final TextEditingController emailC = TextEditingController();
+  final TextEditingController passwordC = TextEditingController();
   final AuthController authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
-        title: const Text(
-          'LOGIN',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          TextField(
-            autocorrect: false,
-            controller: emailC,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+    return GestureDetector(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Expanded(child: SizedBox()),
+              SvgPicture.string(SvgStrings.warehouse),
+              const SizedBox(
+                height: 18,
               ),
-              labelText: 'Email',
-              hintText: 'Enter your email',
-            ),
-          ),
-          const SizedBox(height: 16),
-          Obx(
-            () => TextField(
-              autocorrect: false,
-              controller: passwordC,
-              keyboardType: TextInputType.text,
-              obscureText: controller.isHidden.value,
-              decoration: InputDecoration(
-                labelText: "Password",
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    controller.isHidden.toggle();
-                  },
-                  icon: Icon(
-                    controller.isHidden.isFalse
-                        ? Icons.remove_red_eye
-                        : Icons.remove_red_eye_outlined,
+              const Text(
+                "Warehouse\nManagement",
+                style: TextStyle(
+                  fontSize: 40,
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  SvgPicture.string(SvgStrings.location),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'Condongcatur',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0, 3),
+                      blurRadius: 6,
+                      color: const Color(0xff000000).withOpacity(0.16),
+                    ),
+                  ],
+                ),
+                height: 50,
+                child: TextField(
+                  textInputAction: TextInputAction.next,
+                  key: UniqueKey(),
+                  controller: emailC,
+                  keyboardType: TextInputType.emailAddress,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Email",
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    hintStyle: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey.withOpacity(0.58),
+                    ),
+                  ),
+                  cursorColor: const Color(0xFF0096a5),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0, 3),
+                      blurRadius: 6,
+                      color: const Color(0xff000000).withOpacity(0.16),
+                    ),
+                  ],
+                ),
+                height: 50,
+                child: Obx(
+                  () => Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          obscureText: controller.isHidden.value,
+                          controller: passwordC,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.visiblePassword,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Password",
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.withOpacity(0.58),
+                            ),
+                          ),
+                          cursorColor: const Color(0xFF0096a5),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: controller.isHidden.value
+                              ? Colors.black
+                              : Colors.grey,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          controller.isHidden.toggle();
+                        },
+                        splashColor: Colors.transparent,
+                        splashRadius: 1,
+                      ),
+                    ],
                   ),
                 ),
-                hintText: 'Enter your password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(9),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (controller.isLoading.isFalse) {
+                          if (emailC.text.isNotEmpty &&
+                              passwordC.text.isNotEmpty) {
+                            controller.isLoading(true);
+                            Map<String, dynamic> hasil =
+                                await authC.login(emailC.text, passwordC.text);
+                            controller.isLoading(false);
+
+                            if (hasil["error"] == true) {
+                              Get.snackbar("Error", hasil["message"]);
+                            } else {
+                              Get.offAllNamed(Routes.home);
+                            }
+                          } else {
+                            Get.snackbar(
+                                "Error", "Email dan password wajib diisi.");
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        backgroundColor: const Color(0xFF0096a5),
+                      ),
+                      child: Obx(
+                        () => Text(
+                          controller.isLoading.isFalse ? "LOGIN" : "LOADING...",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Navigasi ke halaman register
+                      },
+                      child: const Text(
+                        "Belum punya akun? Register disini",
+                        style: TextStyle(
+                          color: Color(0xFF0096a5),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+              const Expanded(child: SizedBox()),
+            ],
           ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-              onPressed: () async {
-                if (controller.isLoading.isFalse) {
-                  if (emailC.text.isNotEmpty && passwordC.text.isNotEmpty) {
-                    controller.isLoading(true);
-                    Map<String, dynamic> result =
-                        await authC.login(emailC.text, passwordC.text);
-                    controller.isLoading(false);
-                    if (result['error'] == true) {
-                      Get.snackbar('Error', result['message']);
-                    } else {
-                      Get.offAllNamed(Routes.home);
-                    }
-                  } else {
-                    Get.snackbar('Error', 'Email dan Password wajib diisi.');
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: Colors.deepPurple,
-              ),
-              child: Obx(
-                () => Text(
-                  controller.isLoading.isFalse ? 'Login' : 'Loading..',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )),
-        ],
+        ),
       ),
     );
   }
