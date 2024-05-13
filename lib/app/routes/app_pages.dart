@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/add_product/bindings/add_product_binding.dart';
 import '../modules/add_product/views/add_product_view.dart';
+import '../modules/chat_bot/bindings/chat_bot_binding.dart';
+import '../modules/chat_bot/views/chat_bot_view.dart';
 import '../modules/detail_product/bindings/detail_product_binding.dart';
 import '../modules/detail_product/views/detail_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -41,6 +43,11 @@ class AppPages {
       name: _Paths.detailProduct,
       page: () => DetailProductView(),
       binding: DetailProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.chatBot,
+      page: () => const ChatBotView(),
+      binding: ChatBotBinding(),
     ),
   ];
 }
