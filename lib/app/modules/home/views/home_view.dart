@@ -13,110 +13,116 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(
-              top: 25,
-              left: 20,
-              right: 15,
-            ),
-            decoration: const BoxDecoration(
-              color: ColorPalette.pacificBlue,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Homepage",
-                  style: TextStyle(
-                    fontSize: 26,
-                    color: ColorPalette.timberGreen,
-                  ),
-                ),
-                IconButton(
-                  splashColor: ColorPalette.timberGreen,
-                  icon: const Icon(
-                    Icons.power_settings_new,
-                    color: ColorPalette.timberGreen,
-                  ),
-                  onPressed: () async {
-                    Map<String, dynamic> hasil = await authC.logout();
-                    if (hasil["error"] == false) {
-                      Get.offAllNamed(Routes.login);
-                    } else {
-                      Get.snackbar("Error", hasil["error"]);
-                    }
-                  },
-                ),
-              ],
-            ),
+      appBar: AppBar(
+        backgroundColor: ColorPalette.pacificBlue,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(16),
           ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: 4,
-              padding: const EdgeInsets.all(20),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
-              itemBuilder: (BuildContext context, int index) {
-                late String title;
-                late IconData icon;
-                late VoidCallback onTap;
-                switch (index) {
-                  case 0:
-                    title = "Add Product";
-                    icon = Icons.post_add_rounded;
-                    onTap = () => Get.toNamed(Routes.addProduct);
-                    break;
-                  case 1:
-                    title = "Products";
-                    icon = Icons.list_alt_outlined;
-                    onTap = () => Get.toNamed(Routes.products);
-                    break;
-                  case 2:
-                    title = "QR Code";
-                    icon = Icons.qr_code;
-                    onTap = () {
-                      print("Open Camera");
-                    };
-                    break;
-                  case 3:
-                    title = "Catalog";
-                    icon = Icons.document_scanner_outlined;
-                    onTap = () {
-                      controller.downloadCatalog();
-                    };
-                    break;
-                }
-                return Material(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(10),
-                  child: InkWell(
-                    onTap: onTap,
-                    borderRadius: BorderRadius.circular(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: Icon(icon, size: 50),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(title),
-                      ],
-                    ),
-                  ),
-                );
-              },
+        ),
+        title: const Text(
+          "Homepage",
+          style: TextStyle(
+            fontSize: 26,
+            color: ColorPalette.timberGreen,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.power_settings_new,
+              color: ColorPalette.timberGreen,
             ),
+            onPressed: () async {
+              Map<String, dynamic> hasil = await authC.logout();
+              if (hasil["error"] == false) {
+                Get.offAllNamed(Routes.login);
+              } else {
+                Get.snackbar("Error", hasil["error"]);
+              }
+            },
           ),
         ],
       ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: GridView.builder(
+          itemCount: 4,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 20,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            late String title;
+            late IconData icon;
+            late VoidCallback onTap;
+            switch (index) {
+              case 0:
+                title = "Add Product";
+                icon = Icons.post_add_rounded;
+                onTap = () => Get.toNamed(Routes.addProduct);
+                break;
+              case 1:
+                title = "Products";
+                icon = Icons.list_alt_outlined;
+                onTap = () => Get.toNamed(Routes.products);
+                break;
+              case 2:
+                title = "QR Code";
+                icon = Icons.qr_code;
+                onTap = () async {
+                  print("QR Code");
+                };
+                break;
+              case 3:
+                title = "Catalog";
+                icon = Icons.document_scanner_outlined;
+                onTap = () {
+                  controller.downloadCatalog();
+                };
+                break;
+            }
+            return InkWell(
+              onTap: onTap,
+              child: Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(icon, size: 50, color: ColorPalette.pacificBlue),
+                      const SizedBox(height: 10),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(Routes.chatBot);
+        }, // Atur warna ikon sesuai kebutuhan
+        backgroundColor: ColorPalette.pacificBlue,
+        child: const Icon(Icons.chat,
+            color: Colors.white), // Atur warna sesuai kebutuhan
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.endFloat, // Menentukan posisi FAB
     );
   }
 }
