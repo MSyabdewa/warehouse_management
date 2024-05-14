@@ -113,7 +113,7 @@ class AddProductView extends GetView<AddProductController> {
               child: Obx(
                 () => Text(
                   controller.isLoading.value ? "LOADING..." : "ADD PRODUCT",
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ),
