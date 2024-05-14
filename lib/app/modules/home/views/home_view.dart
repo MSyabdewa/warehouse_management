@@ -132,15 +132,16 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(Routes.chatBot);
-        }, // Atur warna ikon sesuai kebutuhan
-        backgroundColor: ColorPalette.pacificBlue,
-        child: const Icon(Icons.chat,
-            color: Colors.white), // Atur warna sesuai kebutuhan
-      ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.endFloat, // Menentukan posisi FAB
+          onPressed: () {
+            Get.toNamed(Routes.chatBot);
+          },
+          backgroundColor: ColorPalette.pacificBlue,
+          child: Image.asset(
+            "assets/icons/chatbot.png",
+            width: 40,
+            height: 40,
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
